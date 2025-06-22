@@ -1,0 +1,138 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(uuid())
+  clerkUserId       String    @unique // Clerk's user ID
+  email             String    @unique
+  name              String?
+  imageUrl          String?
+  role              UserRole  @default(UNASSIGNED) // UNASSIGNED, FOUNDER, ADVISOR, ADMIN
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Founder-specific fields
+  credits           Int       @default(2) // Accumulated credit balance
+  
+  // Advisor-specific fields
+  specialty         String?
+  experience        Int?      // Years of experience
+  credentialUrl     String?   // Document URL
+  description       String?   @db.Text
+  verificationStatus VerificationStatus?  @default(PENDING)
+  
+  // Relations
+  founderAppointments Appointment[] @relation("FounderAppointments")
+  advisorAppointments  Appointment[] @relation("AdvisorAppointments")
+  availabilities      Availability[]
+  transactions        CreditTransaction[]
+  payouts             Payout[]
+}
+
+enum UserRole {
+  UNASSIGNED
+  FOUNDER
+  ADVISOR
+  ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model Availability {
+  id        String   @id @default(uuid())
+  advisorId  String
+  advisor    User     @relation(fields: [advisorId], references: [id], onDelete: Cascade)
+  startTime DateTime
+  endTime   DateTime
+  status    SlotStatus @default(AVAILABLE)
+  
+  @@index([advisorId, startTime])
+}
+
+enum SlotStatus {
+  AVAILABLE
+  BOOKED
+  BLOCKED
+}
+
+model Appointment {
+  id                String   @id @default(uuid())
+  founderId         String
+  founder           User     @relation("FounderAppointments", fields: [founderId], references: [id])
+  advisorId          String
+  advisor            User     @relation("AdvisorAppointments", fields: [advisorId], references: [id])
+  startTime         DateTime // Start time of appointment
+  endTime           DateTime // End time of appointment
+  status            AppointmentStatus @default(SCHEDULED)
+  notes             String?  @db.Text
+  founderDescription String? @db.Text
+    
+  // Video session fields
+  videoSessionId    String?  // Vonage Video API Session ID
+  videoSessionToken String?  // Optional: Can store tokens if needed
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([status, startTime])
+  @@index([advisorId, startTime])
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+model CreditTransaction {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount            Int      // Positive for additions, negative for usage
+  type              TransactionType
+  packageId         String?  // Reference to which package was purchased
+  createdAt         DateTime @default(now())
+}
+
+enum TransactionType {
+  CREDIT_PURCHASE     // Credits purchased through Clerk Billing
+  APPOINTMENT_DEDUCTION // Credit used for appointment
+  ADMIN_ADJUSTMENT      // Manual adjustment by admin
+}
+
+model Payout {
+  id              String        @id @default(uuid())
+  advisorId        String
+  advisor          User          @relation(fields: [advisorId], references: [id], onDelete: Cascade)
+  amount          Float         // Total payout amount in USD
+  credits         Int           // Number of credits being paid out
+  platformFee     Float         // Platform fee deducted (2 USD per credit)
+  netAmount       Float         // Amount advisor receives (8 USD per credit)
+  paypalEmail     String        // Advisor's PayPal email for payout
+  status          PayoutStatus  @default(PROCESSING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  processedAt     DateTime?     // When admin marked it as processed
+  processedBy     String?       // Admin who processed it
+
+  @@index([status, createdAt])
+  @@index([advisorId, status])
+}
+
+enum PayoutStatus {
+  PROCESSING
+  PROCESSED
+}
