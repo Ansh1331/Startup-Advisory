@@ -5,20 +5,15 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { format } from "date-fns";
 
-// Define credit allocations per plan
 const PLAN_CREDITS = {
-  free_user: 0, // Basic plan: 2 credits
-  standard: 10, // Standard plan: 10 credits per month
-  premium: 24, // Premium plan: 24 credits per month
+  free_user: 0, 
+  standard: 10, 
+  premium: 24,
 };
 
-// Each appointment costs 2 credits
 const APPOINTMENT_CREDIT_COST = 2;
 
-/**
- * Checks user's subscription and allocates monthly credits if needed
- * This should be called on app initialization (e.g., in a layout component)
- */
+
 export async function checkAndAllocateCredits(user) {
   try {
     if (!user) {
@@ -33,7 +28,6 @@ export async function checkAndAllocateCredits(user) {
     // Check if user has a subscription
     const { has } = await auth();
 
-    // Check which plan the user has
     const hasBasic = has({ plan: "free_user" });
     const hasStandard = has({ plan: "standard" });
     const hasPremium = has({ plan: "premium" });
@@ -52,7 +46,6 @@ export async function checkAndAllocateCredits(user) {
       creditsToAllocate = PLAN_CREDITS.free_user;
     }
 
-    // If user doesn't have any plan, just return the user
     if (!currentPlan) {
       return user;
     }
@@ -80,7 +73,6 @@ export async function checkAndAllocateCredits(user) {
 
     // Allocate credits and create transaction record
     const updatedUser = await db.$transaction(async (tx) => {
-      // Create transaction record
       await tx.creditTransaction.create({
         data: {
           userId: user.id,
@@ -90,7 +82,6 @@ export async function checkAndAllocateCredits(user) {
         },
       });
 
-      // Update user's credit balance
       const updatedUser = await tx.user.update({
         where: {
           id: user.id,
