@@ -25,7 +25,7 @@ export default async function PricingPage() {
           variant="outline"
           className="bg-cyan-900/30 border-cyan-700/30 px-4 py-1 text-cyan-300 text-sm font-medium mb-4"
         >
-          Affordable Healthcare
+          Flexible Mentorship
         </Badge>
 
         <h1 className="text-4xl md:text-5xl font-bold gradient-title mb-4">
@@ -33,8 +33,7 @@ export default async function PricingPage() {
         </h1>
 
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Choose the perfect consultation package that fits your healthcare
-          needs with no hidden fees or long-term commitments
+          Choose the consultation package that fits your startup needs, with no hidden fees or long-term commitments
         </p>
       </div>
 

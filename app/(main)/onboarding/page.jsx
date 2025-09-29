@@ -101,8 +101,7 @@ export default function OnboardingPage() {
               Join as a Founder
             </CardTitle>
             <CardDescription className="mb-4">
-              Book appointments, consult with advisors, and manage your
-              healthcare journey
+              Book sessions, connect with expert advisors, and grow your startup journey.
             </CardDescription>
             <Button
               className="w-full mt-2 bg-cyan-600 hover:bg-cyan-700"
@@ -132,8 +131,7 @@ export default function OnboardingPage() {
               Join as a Advisor
             </CardTitle>
             <CardDescription className="mb-4">
-              Create your professional profile, set your availability, and
-              provide consultations
+              Showcase your expertise, manage your schedule, and advise founders who need your guidance.
             </CardDescription>
             <Button
               className="w-full mt-2 bg-cyan-600 hover:bg-cyan-700"

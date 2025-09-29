@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Find Advisors - StartupConnect",
-  description: "Browse and book appointments with top healthcare providers",
+  description: "BBrowse and book sessions with top startup advisors.",
 };
 
 export default async function AdvisorsLayout({ children }) {
