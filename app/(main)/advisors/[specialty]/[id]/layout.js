@@ -21,7 +21,6 @@ export default async function AdvisorProfileLayout({ children, params }) {
   return (
     <div className="container mx-auto">
       <PageHeader
-        // icon={<GraduationCap />}
         title={advisor.name}
         backLink={`/advisors/${advisor.specialty}`}
         backLabel={`Back to ${advisor.specialty}`}

@@ -4,9 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-/**
- * Verifies if current user has admin role
- */
+
 export async function verifyAdmin() {
   const { userId } = await auth();
 
@@ -28,9 +26,7 @@ export async function verifyAdmin() {
   }
 }
 
-/**
- * Gets all advisors with pending verification
- */
+
 export async function getPendingAdvisors() {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) throw new Error("Unauthorized");
@@ -52,9 +48,6 @@ export async function getPendingAdvisors() {
   }
 }
 
-/**
- * Gets all verified advisors
- */
 export async function getVerifiedAdvisors() {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) throw new Error("Unauthorized");
@@ -77,9 +70,7 @@ export async function getVerifiedAdvisors() {
   }
 }
 
-/**
- * Updates a advisor's verification status
- */
+
 export async function updateAdvisorStatus(formData) {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) throw new Error("Unauthorized");
@@ -109,9 +100,7 @@ export async function updateAdvisorStatus(formData) {
   }
 }
 
-/**
- * Suspends or reinstates a advisor
- */
+
 export async function updateAdvisorActiveStatus(formData) {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) throw new Error("Unauthorized");
@@ -143,9 +132,7 @@ export async function updateAdvisorActiveStatus(formData) {
   }
 }
 
-/**
- * Gets all pending payouts that need admin approval
- */
+
 export async function getPendingPayouts() {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) throw new Error("Unauthorized");
@@ -178,9 +165,7 @@ export async function getPendingPayouts() {
   }
 }
 
-/**
- * Approves a payout request and deducts credits from advisor's account
- */
+
 export async function approvePayout(formData) {
   const isAdmin = await verifyAdmin();
   if (!isAdmin) throw new Error("Unauthorized");

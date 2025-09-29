@@ -10,10 +10,8 @@ export const metadata = {
 };
 
 export default async function AdminLayout({ children }) {
-  // Verify the user has admin access
   const isAdmin = await verifyAdmin();
 
-  // Redirect if not an admin
   if (!isAdmin) {
     redirect("/onboarding");
   }
@@ -22,7 +20,6 @@ export default async function AdminLayout({ children }) {
     <div className="container mx-auto px-4 py-8">
       <PageHeader icon={<ShieldCheck />} title="Admin Settings" />
 
-      {/* Vertical tabs on larger screens / Horizontal tabs on mobile */}
       <Tabs
         defaultValue="pending"
         className="grid grid-cols-1 md:grid-cols-4 gap-6"

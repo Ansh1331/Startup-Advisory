@@ -19,12 +19,10 @@ export default async function AdvisorDashboardPage() {
       getAdvisorPayouts(),
     ]);
 
-  //   // Redirect if not a advisor
   if (user?.role !== "ADVISOR") {
     redirect("/onboarding");
   }
 
-  // If already verified, redirect to dashboard
   if (user?.verificationStatus !== "VERIFIED") {
     redirect("/advisor/verification");
   }

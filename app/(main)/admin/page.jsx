@@ -9,7 +9,7 @@ import {
 } from "@/actions/admin";
 
 export default async function AdminPage() {
-  // Fetch all data in parallel
+  
   const [pendingAdvisorsData, verifiedAdvisorsData, pendingPayoutsData] =
     await Promise.all([
       getPendingAdvisors(),

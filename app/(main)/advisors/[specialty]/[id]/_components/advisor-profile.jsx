@@ -1,4 +1,3 @@
-// /app/advisors/[id]/_components/advisor-profile.jsx
 "use client";
 
 import { useState } from "react";

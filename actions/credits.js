@@ -20,12 +20,10 @@ export async function checkAndAllocateCredits(user) {
       return null;
     }
 
-    // Only allocate credits for founders
     if (user.role !== "FOUNDER") {
       return user;
     }
 
-    // Check if user has a subscription
     const { has } = await auth();
 
     const hasBasic = has({ plan: "free_user" });

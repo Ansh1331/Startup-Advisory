@@ -16,9 +16,7 @@ const credentials = new Auth({
 const options = {};
 const vonage = new Vonage(credentials, options);
 
-/**
- * Book a new appointment with a advisor
- */
+
 export async function bookAppointment(formData) {
   const { userId } = await auth();
 
@@ -63,7 +61,6 @@ export async function bookAppointment(formData) {
       throw new Error("Advisor not found or not verified");
     }
 
-    // Check if the founder has enough credits (2 credits per appointment)
     if (founder.credits < 2) {
       throw new Error("Insufficient credits to book an appointment");
     }
@@ -256,9 +253,7 @@ export async function generateVideoToken(formData) {
   }
 }
 
-/**
- * Get advisor by ID
- */
+
 export async function getAdvisorById(advisorId) {
   try {
     const advisor = await db.user.findUnique({
@@ -280,12 +275,9 @@ export async function getAdvisorById(advisorId) {
   }
 }
 
-/**
- * Get available time slots for booking for the next 4 days
- */
+
 export async function getAvailableTimeSlots(advisorId) {
   try {
-    // Validate advisor existence and verification
     const advisor = await db.user.findUnique({
       where: {
         id: advisorId,

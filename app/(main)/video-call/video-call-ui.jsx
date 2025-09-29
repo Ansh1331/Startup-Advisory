@@ -131,7 +131,6 @@ export default function VideoCall({ sessionId, token }) {
     }
   };
 
-  // Toggle video
   const toggleVideo = () => {
     if (publisherRef.current) {
       publisherRef.current.publishVideo(!isVideoEnabled);
@@ -139,7 +138,6 @@ export default function VideoCall({ sessionId, token }) {
     }
   };
 
-  // Toggle audio
   const toggleAudio = () => {
     if (publisherRef.current) {
       publisherRef.current.publishAudio(!isAudioEnabled);
@@ -147,7 +145,6 @@ export default function VideoCall({ sessionId, token }) {
     }
   };
 
-  // End call
   const endCall = () => {
     // Properly destroy publisher
     if (publisherRef.current) {
