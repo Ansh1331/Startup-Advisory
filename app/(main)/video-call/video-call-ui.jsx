@@ -28,7 +28,7 @@ export default function VideoCall({ sessionId, token }) {
 
   const router = useRouter();
 
-  const appId = process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID;
+  const appId = process.env.VONAGE_APPLICATION_ID;
 
   // Handle script load
   const handleScriptLoad = () => {
