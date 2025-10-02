@@ -21,6 +21,7 @@
     "@radix-ui/react-separator": "^1.1.6",
     "@radix-ui/react-slot": "^1.2.2",
     "@radix-ui/react-tabs": "^1.1.11",
+    "@vercel/analytics": "^1.5.0",
     "@vonage/auth": "^1.12.0",
     "@vonage/client-sdk-video": "^2.30.0",
     "@vonage/server-sdk": "^3.21.0",
