@@ -10,7 +10,7 @@ import { Auth } from "@vonage/auth";
 
 // Initialize Vonage Video API client
 const credentials = new Auth({
-  applicationId: process.env.VONAGE_APPLICATION_ID,
+  applicationId: process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID,
   privateKey: process.env.VONAGE_PRIVATE_KEY,
 });
 const options = {};
